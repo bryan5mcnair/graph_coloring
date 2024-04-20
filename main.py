@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import os
 import numpy as np
+import matplotlib.patches as mpatches
 
 # p = SymmetricFunctions(QQ).p()
 
@@ -19,6 +20,14 @@ def draw_graph(graph, colors, chromatic_polynomial, coloring_possible, color_num
     plt.text(0, -0.1, is_coloring_possible, horizontalalignment='center', verticalalignment='center')
     plt.text(0, -0.2, is_valid_coloring, horizontalalignment='center', verticalalignment='center')
     plt.text(0, -0.3, term_statement, horizontalalignment='center', verticalalignment='center')
+    
+    handles = []
+
+    for i, color in enumerate(colors):
+        handles.append(mpatches.Patch(color=color, label=f"Color {i+1}"))
+    
+    plt.legend(handles=handles)
+
     plt.show()
 
 def get_colors(n):
@@ -59,6 +68,13 @@ def valid_coloring(adjList, coloring):
             if coloring[v1] == coloring[v2[1]]:
                 return "This is not a valid coloring of the graph"
     return "This is a valid coloring of the graph"
+
+def pretty_print_colors(coloring):
+    res = []
+    for node in coloring:
+        if coloring[node] != 0:
+            res.append(f"vertex {node} is colored color {coloring[node]}")
+    return ", ".join(res)
 
 def construct_graph():
     plt.rcParams.update({'font.size': 14})
@@ -101,6 +117,8 @@ def construct_graph():
             print(f"\nCurrently, you created the vertices {', '.join(v_list)}.")
         if e_list != []:
             print(f"Also, you created the edges {', '.join(pretty_print_edges(e_list))}.")
+        if list(color_count.keys()) != [0] and list(color_count.keys()) != []:
+            print(f"Also, {pretty_print_colors(coloring)}.")
 
         option = input("\nEnter your option: ")
 
