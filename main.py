@@ -9,8 +9,9 @@ def get_vertices(adj_list):
 def pretty_print_edges(edge_tuples):
     return [f"{v1}<-->{v2}" for v1, v2 in edge_tuples]
 
-def draw_graph(graph, colors):
+def draw_graph(graph, colors, chromatic_polynomial):
     nx.draw(graph, with_labels=True, font_weight='bold', node_color=colors)
+    plt.text(0, 0, f"Chromatic Polynomial: {chromatic_polynomial}", horizontalalignment='center', verticalalignment='center')
     plt.show()
 
 def get_colors(n):
@@ -36,6 +37,8 @@ def update_graph_colors(graph, colors, coloring):
     return color_map
 
 def construct_graph():
+    plt.rcParams.update({'font.size': 14})
+
     graph = nx.Graph()
     vertices = dict()
     coloring = dict()
@@ -136,7 +139,8 @@ def construct_graph():
                 if askColorAgain.lower() not in ['y', 'yes']:
                     break
         elif option == 4:
-            draw_graph(graph, color_map)
+            chrom_poly = nx.chromatic_polynomial(graph)
+            draw_graph(graph, color_map, chrom_poly)
         elif option == 5:
             print("The End :)")
             break
