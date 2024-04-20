@@ -9,9 +9,12 @@ def get_vertices(adj_list):
 def pretty_print_edges(edge_tuples):
     return [f"{v1}<-->{v2}" for v1, v2 in edge_tuples]
 
-def draw_graph(graph, colors, chromatic_polynomial):
+def draw_graph(graph, colors, chromatic_polynomial, coloring_possible, color_num):
+    num_ways = eval(str(chromatic_polynomial).replace("x", str(color_num)))
+    is_coloring_possible = f"Not able to color this graph with {color_num} colors" if not coloring_possible else f"There are {num_ways} ways to color this graph with {color_num} colors."
     nx.draw(graph, with_labels=True, font_weight='bold', node_color=colors)
     plt.text(0, 0, f"Chromatic Polynomial: {chromatic_polynomial}", horizontalalignment='center', verticalalignment='center')
+    plt.text(0, -0.1, is_coloring_possible, horizontalalignment='center', verticalalignment='center')
     plt.show()
 
 def get_colors(n):
@@ -35,6 +38,9 @@ def update_graph_colors(graph, colors, coloring):
     for node in graph:
         color_map.append(colors[coloring[node]])
     return color_map
+
+def is_coloring_possible(chrom_poly, x):
+    return eval(str(chrom_poly).replace("x", str(x))) > 0
 
 def construct_graph():
     plt.rcParams.update({'font.size': 14})
@@ -140,7 +146,12 @@ def construct_graph():
                     break
         elif option == 4:
             chrom_poly = nx.chromatic_polynomial(graph)
-            draw_graph(graph, color_map, chrom_poly)
+            coloring_possible = is_coloring_possible(chrom_poly, color_num)
+            draw_graph(graph, color_map, chrom_poly, coloring_possible, color_num)
+            # print(chrom_poly)
+            # print(str(chrom_poly).replace("x", str(color_num)))
+            # print(eval(str(chrom_poly).replace("x", str(color_num))) > 0)
+            break
         elif option == 5:
             print("The End :)")
             break
