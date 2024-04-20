@@ -8,6 +8,10 @@ def get_vertices(adj_list):
 def pretty_print_edges(edge_tuples):
     return [f"{v1}<-->{v2}" for v1, v2 in edge_tuples]
 
+def draw_graph(graph):
+    nx.draw(graph, with_labels=True, font_weight='bold')
+    plt.show()
+
 def construct_graph():
     graph = nx.Graph()
     vertices = dict()
@@ -74,6 +78,12 @@ def construct_graph():
                 askEdgeAgain = input("Do you want to continue with working with edges (Y/N)? ")
                 if askEdgeAgain.lower() not in ['y', 'yes']:
                     break
+        elif option == 3:
+            draw_graph(graph)
+        elif option == 5:
+            print("The End :)")
+            break
+
 
 
 construct_graph()
