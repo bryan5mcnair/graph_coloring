@@ -12,10 +12,10 @@ def get_vertices(adj_list):
 def pretty_print_edges(edge_tuples):
     return [f"{v1}<-->{v2}" for v1, v2 in edge_tuples]
 
-def draw_graph(graph, colors, chromatic_polynomial, coloring_possible, color_num, is_valid_coloring, term_statement):
+def draw_graph(graph, color_map, chromatic_polynomial, coloring_possible, color_num, is_valid_coloring, term_statement, colors):
     num_ways = eval(str(chromatic_polynomial).replace("x", str(color_num)))
     is_coloring_possible = f"Not able to color this graph with {color_num} colors" if not coloring_possible else f"There are {num_ways} ways to color this graph with {color_num} colors."
-    nx.draw(graph, with_labels=True, font_weight='bold', node_color=colors)
+    nx.draw(graph, with_labels=True, font_weight='bold', node_color=color_map)
     plt.text(0, 0, f"Chromatic Polynomial: {chromatic_polynomial}", horizontalalignment='center', verticalalignment='center')
     plt.text(0, -0.1, is_coloring_possible, horizontalalignment='center', verticalalignment='center')
     plt.text(0, -0.2, is_valid_coloring, horizontalalignment='center', verticalalignment='center')
@@ -205,7 +205,7 @@ def construct_graph():
             term = coefficient + terms
             if colored:
                 term = f"The term of the chromatic symmetric function for this graph would be {term}."
-            draw_graph(graph, color_map, chrom_poly, coloring_possible, color_num, is_valid_coloring, term)
+            draw_graph(graph, color_map, chrom_poly, coloring_possible, color_num, is_valid_coloring, term, colors[1:])
         elif option == 5:
             print("The End :)")
             break
