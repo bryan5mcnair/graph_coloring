@@ -189,20 +189,16 @@ def construct_graph():
             chrom_poly = nx.chromatic_polynomial(graph)
             coloring_possible = is_coloring_possible(chrom_poly, color_num)
             is_valid_coloring = valid_coloring(vertices, coloring)
-            coefficient = 1
             terms = ""
             colored = True
             for color in color_count:
                 if color == 0:
                     terms = "The term for the chromatic symmetric function is unable to be calculated so far."
-                    coefficient = ""
                     colored = False
                     break
                 else:
-                    coefficient *= int(color_count[color])
-                    terms += f"x_{color}"
-            coefficient = "" if coefficient == 1 else str(coefficient)
-            term = coefficient + terms
+                    terms += f"x_{color}**{int(color_count[color])}"
+            term = terms
             if colored:
                 term = f"The term of the chromatic symmetric function for this graph would be {term}."
             draw_graph(graph, color_map, chrom_poly, coloring_possible, color_num, is_valid_coloring, term, colors[1:])
